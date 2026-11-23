@@ -27,9 +27,9 @@ The model is compiled with the Adam optimizer and binary cross-entropy loss, and
 
 ## Results
 
-The notebook's saved run reports **81% test accuracy** on a test split of 100 reviews.
+The notebook now separates the raw reviews into stratified training and test sets before fitting the tokenizer. The tokenizer is trained only on the training text, and a validation split is taken from the training set. The held-out test set is reserved for final evaluation.
 
-This is the recorded result from the current notebook run, not a claim of generalization to other datasets. The dataset subset is small, and the current notebook fits its tokenizer before the train/test split and uses the test split as validation during training. These choices can introduce information leakage and make the reported score optimistic. For a more reliable evaluation, split the raw reviews first, fit the tokenizer only on training text, and reserve the test set for final evaluation.
+**No updated accuracy figure is published yet.** Run the notebook from top to bottom to generate the current test accuracy, precision, recall, F1-score, and confusion matrix. The earlier 81% figure came from a run with evaluation leakage and should not be treated as the current result.
 
 ## Dataset
 
