@@ -109,11 +109,10 @@ Open `assignment_NLP.ipynb` and run its cells in order. If you store the CSV els
 
 ## Current Limitations & Next Improvements
 
-- Use the full dataset or a larger, documented sample instead of only 1,000 rows.
-- Split data before fitting the tokenizer to prevent train/test information leakage.
-- Use a validation split from training data and keep the test set for final evaluation only.
-- Report precision, recall, F1-score, and a confusion matrix in addition to accuracy.
-- Set random seeds for reproducibility and consider class imbalance.
+- The current experiment uses a 1,000-review sample; evaluate on the full dataset or a larger, documented sample.
+- Report and compare precision, recall, F1-score, and a confusion matrix alongside accuracy.
+- Set random seeds and document the runtime environment to improve reproducibility.
+- Review class balance and consider class weights if needed.
 - Save the trained model and tokenizer for repeatable inference.
 - Add a small prediction function for classifying new review text.
 
