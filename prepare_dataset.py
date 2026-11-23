@@ -3,7 +3,7 @@
 1. Put the downloaded original file (Reviews.csv) in this folder.
 2. Run: python -m pip install pandas
 3. Run: python prepare_dataset.py
-4. Upload the generated Reviews_sample.csv to the GitHub repository root.
+4. Commit the generated Reviews_sample.csv to the repository root.
 """
 from pathlib import Path
 import pandas as pd
@@ -12,6 +12,7 @@ SOURCE = Path("Reviews.csv")
 OUTPUT = Path("Reviews_sample.csv")
 SAMPLE_ROWS = 1000
 RANDOM_STATE = 42
+
 
 def main():
     if not SOURCE.exists():
@@ -30,30 +31,27 @@ def main():
     if df.empty:
         raise ValueError("No valid rows with Text and Score were found.")
 
-    # Keep the score distribution approximately representative.
+    # Proportional stratified sample by Score, keeping both columns.
     n = min(SAMPLE_ROWS, len(df))
-    if len(df) > n:
-        sample = (
-            df.groupby("Score", group_keys=False)
-              .apply(
-                  lambda group: group.sample(
-                      n=max(1, round(n * len(group) / len(df))),
-                      random_state=RANDOM_STATE
-                  )
-              )
-        )
-        if len(sample) > n:
-            sample = sample.sample(n=n, random_state=RANDOM_STATE)
-        elif len(sample) < n:
-            remaining = df.drop(index=sample.index)
-            extra = remaining.sample(n=n-len(sample), random_state=RANDOM_STATE)
-            sample = pd.concat([sample, extra])
-        df = sample.sample(frac=1, random_state=RANDOM_STATE)
+    frac = n / len(df)
+    sample = df.groupby("Score", group_keys=False).sample(frac=frac, random_state=RANDOM_STATE)
 
-    df.to_csv(OUTPUT, index=False)
-    print(f"Created {OUTPUT} with {len(df):,} genuine reviews.")
+    # Rounding can leave the sample slightly off target; fix it to exactly n rows.
+    if len(sample) > n:
+        sample = sample.sample(n=n, random_state=RANDOM_STATE)
+    elif len(sample) < n:
+        remaining = df.drop(index=sample.index)
+        extra = remaining.sample(n=n - len(sample), random_state=RANDOM_STATE)
+        sample = pd.concat([sample, extra])
+
+    sample = sample.sample(frac=1, random_state=RANDOM_STATE)
+    sample.to_csv(OUTPUT, index=False)
+
+    print(f"Created {OUTPUT} with {len(sample):,} genuine reviews.")
+    print(f"Columns: {list(sample.columns)}")
     print(f"File size: {OUTPUT.stat().st_size / 1024:.1f} KB")
-    print("Upload this CSV to the root of your GitHub repository.")
+    print("Commit this CSV to the root of your GitHub repository.")
+
 
 if __name__ == "__main__":
     main()
