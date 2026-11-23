@@ -24,7 +24,3 @@ A Jupyter Notebook (`assignment_NLP.ipynb`) that performs end-to-end text prepro
 3. Open `assignment_NLP.ipynb` in Jupyter or VS Code and run the cells sequentially.
 ```[cite: 15]
 
-**ملحوظة بسيطة قبل الرفع على GitHub:**
-* مسار قراءة ملف البيانات مكتوب كمسار محلي على جهازك (`C:\Users\LENOVO\OneDrive\Documents\Reviews.csv`)، فمن الأفضل تغييره لمسار نسبي مثل `Reviews.csv` (أو `data/Reviews.csv`) مع إضافة رابط أو وصف للـ Dataset في الـ `README` علشان أي حد يشغّله على جهازه يشتغل بسهولة.
-
-تحبي نكمل مع ملف أو مشروع تاني؟
